@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Metallic Shaders | MKebsi's Experiments</title>
+  <meta name="description" content="A 3D scene made with WebGL Shaders using Three.js. A single-page web app made by MKebsi"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow"/>
+    
+  <!--Site Open Graph-->
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Metallic Shaders"/>
+  <meta property="og:title" content="Metallic Shaders | MKebsi's Experiments"/>
+  <meta property="og:url" content="https://alkebsi.github.io/shader-experiments/Ex-A/dist/"/>
+  <meta property="og:image" content="https://alkebsi.github.io/shader-experiments/Ex-A/social/cover.jpg"/>
+  <meta property="og:image:alt" content="A screenshot of a single-page web experiment using Three.js and Shaders"/>
+  <meta property="og:image:width" content="Template Width"/>
+  <meta property="og:image:height" content="Template Height"/>
+  <meta property="og:description" content="A 3D scene made with WebGL Shaders using Three.js. A single-page web app made by MKebsi"/>
+  
+  <!--Site Twitter Cards-->
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="Metallic Shaders | MKebsi's Experiments"/>
+  <meta name="twitter:url" content="https://alkebsi.github.io/shader-experiments/Ex-A/dist/"/>
+  <meta name="twitter:image" content="https://alkebsi.github.io/shader-experiments/Ex-A/dist/social/cover.jpg"/>
+  <meta name="twitter:site" content="Metallic Shaders"/>
+  <meta name="twitter:creator" content="@MrKebsi"/>
+  <meta name="twitter:description" content="A 3D scene made with WebGL Shaders using Three.js. A single-page web app made by MKebsi"/>
+  
+  <!--LINK Tages-->
+  <link rel="canonical" href="https://alkebsi.github.io/shader-experiments/Ex-A/dist/"/>
+  <link rel="stylesheet" href="style.css" id="stylesheet" />
+  <link rel="icon" href="favicon.svg" />
+</head>
+<body>
+  <!-- Web UI -->
+  <div id="content">
+    
+  </div><!-- #content -->
+  
+  <!-- Setting the Canvas -->
+  <canvas id="webgl"></canvas>
+  
+  <!-- Importing the Plane GLSL files -->
+  <script src="shaders/plane_main.vert.glsl.js"></script>
+  <script src="shaders/plane_pars.vert.glsl.js"></script>
+  <script src="shaders/plane_main.frag.glsl.js"></script>
+  <script src="shaders/plane_pars.frag.glsl.js"></script>
+  
+  <!-- Importing the JS files -->
+  <script src="libs/three.min.js"></script>
+  <script src="libs/OrbitControls.js"></script>
+  <script src="libs/dat.gui.min.js"></script>
+  <script src="libs/stats.min.js"></script>
+  
+  <script src="script.js"></script>
+</body>
+</html>
