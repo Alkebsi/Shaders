@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dark Metallic Shader | MKebsi's Experiments</title>
+  <meta name="description" content="Template Description"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow"/>
+    
+  <!--Site Open Graph-->
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Template Name"/>
+  <meta property="og:title" content="Template Title"/>
+  <meta property="og:url" content="Template URL"/>
+  <meta property="og:image" content="Template Image URL"/>
+  <meta property="og:image:alt" content="Template Image Alternative Text"/>
+  <meta property="og:image:width" content="Template Width"/>
+  <meta property="og:image:height" content="Template Height"/>
+  <meta property="og:description" content="Template Description"/>
+  
+  <!--Site Twitter Cards-->
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="Template Title"/>
+  <meta name="twitter:url" content="Template URL"/>
+  <meta name="twitter:image" content="template Image URL"/>
+  <meta name="twitter:site" content="Template Name"/>
+  <meta name="twitter:creator" content="@Template Creator"/>
+  <meta name="twitter:description" content="Template Description"/>
+  
+  <!--LINK Tages-->
+  <link rel="canonical" href="Template Initial URL"/>
+  <link rel="stylesheet" href="style.css" id="stylesheet" />
+  <link rel="icon" href="favicon.svg" />
+</head>
+<body>
+  <!-- Background -->
+  <svg id="bg-con" viewBox="0 0 100 100">
+    <rect x="10" y="10" width="20" height="20" id="rect-one"/>
+    <rect x="60" y="60" width="40" height="20" id="rect-two"/>
+    <circle cx="70" cy="30" r="20" id="circle-one"/>
+    <circle cx="20" cy="80" r="20" id="circle-two"/>
+    <line x1="-100" y1="0" x2="200" y2="0" id="line-one" />
+    
+    <!-- 
+    <circle r="50" id="circle-three"/>
+    <circle r="40" id="circle-four"/>
+    <line x1="-100" y1="-100" x2="200" y2="200" id="line-two" />
+    <line x1="200" y1="-100" x2="-100" y2="200" id="line-three" />
+    -->
+  </svg>
+  
+  <!-- Setting the Canvas -->
+  <canvas id="webgl"></canvas>
+  
+  <!-- Importing the GLSL files -->
+  <script src="shaders/waves_main.vert.glsl.js"></script>
+  <script src="shaders/waves_main.frag.glsl.js"></script>
+  <script src="shaders/waves_pars.vert.glsl.js"></script>
+  <script src="shaders/waves_pars.frag.glsl.js"></script>
+  
+  <!-- Importing the JS files -->
+  <script src="libs/three.min.js"></script>
+  <script src="libs/OrbitControls.js"></script>
+  <script src="libs/dat.gui.min.js"></script>
+  <script src="libs/stats.min.js"></script>
+  
+  <script src="script.js"></script>
+</body>
+</html>

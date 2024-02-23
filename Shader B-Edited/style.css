@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  background: #0d0e14;
+}
+
+#webgl {
+  position: fixed;
+  
+  outline: 0;
+  background: transparent;
+}
+
+#bg-con {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px dashed red;
+  min-width: 100vw;
+  filter: blur(15vw);
+  min-height: 100vh;
+}
+
+#rect-one {
+  fill: #7db7ff66;
+  animation: floatA 15s 2s infinite;
+}
+
+#rect-two {
+  fill: #ff5aa266;
+  animation: floatA 20s infinite;
+}
+
+#circle-one {
+  fill: #7db7ff66;
+  animation: floatA 25s 1s infinite;
+}
+
+#circle-two {
+  fill: #ff5aa266;
+  animation: floatA 20s 1s infinite;
+}
+
+#line-one {
+  stroke: #ff5aa266;
+  stroke-width: 10;
+  animation: lineA 30s infinite;
+}
+
+@keyframes floatA {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(10px, 10px);
+  }
+  50% {
+    transform: translate(20px, -10px);
+  }
+}
+
+@keyframes lineA {
+  0%, 100% {
+    transform: translate(0, 0) rotate(20);
+  }
+  50% {
+    transform: translate(100px, 100px) rotate(340deg);
+  }
+}
