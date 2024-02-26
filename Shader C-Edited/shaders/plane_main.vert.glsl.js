@@ -1,6 +1,5 @@
 const wavesMainVert = `
-    
-      vec3 displacedPosition = position + normal * displaceA(position);
+  vec3 displacedPosition = position + normal * displace(position);
 
 
       float offset = uSize / uSigments;
@@ -8,8 +7,8 @@ const wavesMainVert = `
       vec3 bitangent = normalize(cross(normal, tangent));
       vec3 neighbour1 = position + tangent * offset;
       vec3 neighbour2 = position + bitangent * offset;
-      vec3 displacedNeighbour1 = neighbour1 + normal * displaceA(neighbour1);
-      vec3 displacedNeighbour2 = neighbour2 + normal * displaceA(neighbour2);
+      vec3 displacedNeighbour1 = neighbour1 + normal * displace(neighbour1);
+      vec3 displacedNeighbour2 = neighbour2 + normal * displace(neighbour2);
 
       // https://i.ya-webdesign.com/images/vector-normals-tangent-16.png
       vec3 displacedTangent = displacedNeighbour1 - displacedPosition;
@@ -18,11 +17,8 @@ const wavesMainVert = `
       // https://upload.wikimedia.org/wikipedia/commons/d/d2/Right_hand_rule_cross_product.svg
       vec3 displacedNormal = normalize(cross(displacedTangent, displacedBitangent));
     
-    // vStrength = strength;
-    vUv = uv;
 `;
 window.wavesMainVert = wavesMainVert;
-
 
 window.wavesNormals = `
   vec3 transformedNormal = displacedNormal;

@@ -108,7 +108,7 @@ class Camera {
   setInstance() {
     this.instance = new THREE.PerspectiveCamera(45, this.sizes.width / this.sizes.height, 0.01, 100);
     
-    this.instance.position.set(10, 5, 5);
+    this.instance.position.set(0, 5, 10);
     //this.instance.rotation.set(-Math.PI / 2, 0, 0);
     
     this.instanceGroup = new THREE.Group();
@@ -188,78 +188,12 @@ class Waves {
   }
   
   setSphere() {
-const psrdnoise = `
-vec4 permute(vec4 i) {
-  vec4 im = mod(i, 289.0);
-  return mod(((im*34.0)+10.0)*im, 289.0);
-}
-
-float psrdnoise(vec3 x, vec3 period, float alpha, out vec3 gradient)
-{
-  const mat3 M = mat3(0.0, 1.0, 1.0, 1.0, 0.0, 1.0,  1.0, 1.0, 0.0);
-  const mat3 Mi = mat3(-0.5, 0.5, 0.5, 0.5,-0.5, 0.5, 0.5, 0.5,-0.5);
-  vec3 uvw = M * x;
-  vec3 i0 = floor(uvw), f0 = fract(uvw);
-  vec3 g_ = step(f0.xyx, f0.yzz), l_ = 1.0 - g_;
-  vec3 g = vec3(l_.z, g_.xy), l = vec3(l_.xy, g_.z);
-  vec3 o1 = min( g, l ), o2 = max( g, l );
-  vec3 i1 = i0 + o1, i2 = i0 + o2, i3 = i0 + vec3(1.0);
-  vec3 v0 = Mi * i0, v1 = Mi * i1, v2 = Mi * i2, v3 = Mi * i3;
-  vec3 x0 = x - v0, x1 = x - v1, x2 = x - v2, x3 = x - v3;
-  if(any(greaterThan(period, vec3(0.0)))) {
-    vec4 vx = vec4(v0.x, v1.x, v2.x, v3.x);
-    vec4 vy = vec4(v0.y, v1.y, v2.y, v3.y);
-    vec4 vz = vec4(v0.z, v1.z, v2.z, v3.z);
-    if(period.x > 0.0) vx = mod(vx, period.x);
-    if(period.y > 0.0) vy = mod(vy, period.y);
-    if(period.z > 0.0) vz = mod(vz, period.z);
-    i0 = floor(M * vec3(vx.x, vy.x, vz.x) + 0.5);
-    i1 = floor(M * vec3(vx.y, vy.y, vz.y) + 0.5);
-    i2 = floor(M * vec3(vx.z, vy.z, vz.z) + 0.5);
-    i3 = floor(M * vec3(vx.w, vy.w, vz.w) + 0.5);
-  }
-  vec4 hash = permute( permute( permute( 
-      vec4(i0.z, i1.z, i2.z, i3.z ))
-      + vec4(i0.y, i1.y, i2.y, i3.y ))
-      + vec4(i0.x, i1.x, i2.x, i3.x ));
-  vec4 theta = hash * 3.883222077;
-  vec4 sz = hash * -0.006920415 + 0.996539792;
-  vec4 psi = hash * 0.108705628;
-  vec4 Ct = cos(theta), St = sin(theta);
-  vec4 sz_prime = sqrt( 1.0 - sz*sz );
-  vec4 gx, gy, gz;
-  if(alpha != 0.0) {
-    vec4 px = Ct * sz_prime, py = St * sz_prime, pz = sz;
-    vec4 Sp = sin(psi), Cp = cos(psi), Ctp = St*Sp - Ct*Cp;
-    vec4 qx = mix( Ctp*St, Sp, sz), qy = mix(-Ctp*Ct, Cp, sz);
-    vec4 qz = -(py*Cp + px*Sp);
-    vec4 Sa = vec4(sin(alpha)), Ca = vec4(cos(alpha));
-    gx = Ca*px + Sa*qx; gy = Ca*py + Sa*qy; gz = Ca*pz + Sa*qz;
-  }
-  else {
-    gx = Ct * sz_prime; gy = St * sz_prime; gz = sz;  
-  }
-  vec3 g0 = vec3(gx.x, gy.x, gz.x), g1 = vec3(gx.y, gy.y, gz.y);
-  vec3 g2 = vec3(gx.z, gy.z, gz.z), g3 = vec3(gx.w, gy.w, gz.w);
-  vec4 w = 0.5-vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3));
-  w = max(w, 0.0); vec4 w2 = w * w, w3 = w2 * w;
-  vec4 gdotx = vec4(dot(g0,x0), dot(g1,x1), dot(g2,x2), dot(g3,x3));
-  float n = dot(w3, gdotx);
-  vec4 dw = -6.0 * w2 * gdotx;
-  vec3 dn0 = w3.x * g0 + dw.x * x0;
-  vec3 dn1 = w3.y * g1 + dw.y * x1;
-  vec3 dn2 = w3.z * g2 + dw.z * x2;
-  vec3 dn3 = w3.w * g3 + dw.w * x3;
-  gradient = 39.5 * (dn0 + dn1 + dn2 + dn3);
-  return 39.5 * n;
-}
-`
-
-
-    const GEOMETRY_SIGMENTS = 256; // Add this line to have more details or hit a limit
+    const GEOMETRY_SIGMENTS = 400; // Add this line to have more details or hit a limit
+    const GEOMETRY_SIZE = 0.3; // Add this line to have more details or hit a limit
     
     this.sphereGeometry = new THREE.SphereGeometry(
-      1.5, 
+      //GEOMETRY_SIZE,
+      GEOMETRY_SIZE,
       GEOMETRY_SIGMENTS, 
       GEOMETRY_SIGMENTS,
       //0,
@@ -276,12 +210,12 @@ float psrdnoise(vec3 x, vec3 period, float alpha, out vec3 gradient)
     
     this.uniforms = {
       uTime: { value: 0 },
-      uWaveHeight: { value: 0.2 },
+      uWaveHeight: { value: 0.03 },
       uWaveFreq: { value: 5 },
       uWaveAmplitude: { value: 1 },
       uWaveSpeed: { value: 1 },
-      uDisplacementScale: { value: 1 },
-      uBumpScale: { value: 1 },
+      uSize: { value: GEOMETRY_SIZE },
+      uSigments: { value: GEOMETRY_SIGMENTS },
     };
     
     this.sphereMaterial = new THREE.MeshStandardMaterial({
@@ -297,8 +231,8 @@ float psrdnoise(vec3 x, vec3 period, float alpha, out vec3 gradient)
       shader.uniforms.uWaveFreq = this.uniforms.uWaveFreq;
       shader.uniforms.uWaveAmplitude = this.uniforms.uWaveAmplitude;
       shader.uniforms.uWaveSpeed = this.uniforms.uWaveSpeed;
-      shader.uniforms.uDisplacementScale = this.uniforms.uDisplacementScale;
-      shader.uniforms.uBumpScale = this.uniforms.uBumpScale;
+      shader.uniforms.uSize = this.uniforms.uSize;
+      shader.uniforms.uSigments = this.uniforms.uSigments;
       
       // Vertex Pars
       shader.vertexShader = shader.vertexShader.replace('#include <common>', `
@@ -308,94 +242,21 @@ float psrdnoise(vec3 x, vec3 period, float alpha, out vec3 gradient)
       `);
       
       // Vertex Main
-      shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `
-        #include <begin_vertex>
+      shader.vertexShader = shader.vertexShader.replace('#include <uv_vertex>', `
         ${wavesMainVert}
+        
+        #include <uv_vertex>
       `);
       
-      /*
-      shader.vertexShader = `
-          uniform float uTime;
-          
-          #define uCoordScale1 0.2
-          #define uDisplacementScale 0.2
-          
-          /* 
-          uniform float uCoordScale1;
-          uniform float uDisplacementScale; 
-          varying vec3 vPosition;
-          ${psrdnoise}
-        ` + shader.vertexShader
-        shader.vertexShader = shader.vertexShader.replace(
-          '#include <begin_vertex>',
-          `
-            vPosition = position;
-
-            vec3 grad;
-            float d = psrdnoise(position * uCoordScale1 + uTime * vec3(0.1, 0.123, 0.134), vec3(240.0), 4.0 * uTime, grad);
-            grad *= 2.0;
-            vec3 transformed = position + uDisplacementScale * d * normal;
-
-            vec3 N_ = grad - dot(grad, normal) * normal;
-            vNormal = normal - uDisplacementScale * N_;
-            vNormal = normalize(vNormal);
-          `
-        )
-       */
-      // Fragment Main
-      shader.fragmentShader = `
-          uniform mat4 modelViewMatrix;
-          ${wavesParsVert}
-        ` + shader.fragmentShader
-        shader.fragmentShader = shader.fragmentShader.replace(
-          '#include <normal_fragment_begin>',
-          `// bump map
-          
-            
-            
-           /* 
-            vec3 gradtemp = vec3(0.0);
-            float bump = psrdnoise(vPosition * uCoordScale2 + uTime * vec3(0.5, 0.7, 0.6), vec3(240.0), 0.0, grad);
-            grad *= 10.0;
-            bump += 0.5 * psrdnoise(vPosition * uCoordScale3 + 0.02 * grad + uTime * vec3(-0.7, -0.6, 0.5), vec3(240.0), 0.0, gradtemp);
-            grad = 10.0 * gradtemp;
-            bump += 0.25 * psrdnoise(vPosition * uCoordScale4 + uTime * vec3(-0.6, -0.5, -0.7), vec3(240.0), 0.0, gradtemp);
-            grad += 10.0 * gradtemp;
-
-            bump *= 0.2;
-            grad *= 0.2;
-            //*/
-            
-    float time = uTime * uWaveSpeed;
-    vec2 uv = vUv;
-    
-    vec2 displacedUv = vec2(
-      uv.x * 8.0 + pow(sin(time + uv.y * uWaveFreq), 2.0) * uWaveAmplitude,
-      uv.y
-    );
-    
-    float strength = cos(displacedUv.x * PI * 4.0) * 0.5 + 0.5;
-    strength = pow(strength, 2.0) * uWaveHeight;
-    
-    
-            // normal
-            /*
-            vec3 normal;
-            vec3 N_ = vec3(strength) * vNormal;
-            normal = vNormal - uBumpScale * N_;
-            normal = normalize(normal);
-            normal = mat3(modelViewMatrix) * normal;
-            vec3 geometryNormal = normal;
-            */
-            vec3 grad = vec3(strength);
-            vec3 normal;
-            vec3 N_ = grad - dot(grad, vNormal) * vNormal;
-            normal = vNormal - uBumpScale * N_;
-            normal = normalize(normal);
-            normal = mat3(modelViewMatrix) * normal;
-            vec3 geometryNormal = normal;
-          `
-        )
+      // Vertex Normals
+      shader.vertexShader = shader.vertexShader.replace('#include <defaultnormal_vertex>', `
+        ${wavesNormals}
+      `);
+      
+      // Vertex Displacement Map
+      shader.vertexShader = shader.vertexShader.replace('#include <displacementmap_vertex>', `
+        ${wavesDisplacement}
+      `);
     };
     
     this.sphere = new THREE.Mesh(
@@ -404,6 +265,7 @@ float psrdnoise(vec3 x, vec3 period, float alpha, out vec3 gradient)
     );
     
     //this.sphere.rotation.y = -Math.PI * 0.5;    
+    this.sphere.scale.setScalar(6);
     
     this.scene.add(this.sphere);
   }
@@ -435,13 +297,6 @@ float psrdnoise(vec3 x, vec3 period, float alpha, out vec3 gradient)
     this.tests.shader
       .add(this.uniforms.uWaveSpeed, 'value', 0, 5, 0.001)
       .name('WaveSpeed');
-    this.tests.shader
-      .add(this.uniforms.uDisplacementScale, 'value', 0, 5, 0.001)
-      .name('DisplacementScale');
-    this.tests.shader
-      .add(this.uniforms.uBumpScale, 'value', 0, 5, 0.001)
-      .name('BumpScale');
-    
   }
   
   update() {
@@ -492,7 +347,7 @@ class Lights {
   
   setTests() {
     this.tests.lights = this.tests.gui.addFolder('Lights');
-    /*
+    
     this.tests.lights
       .addColor(this.lightsColor, 'a')
       .onChange(() => {
@@ -502,7 +357,7 @@ class Lights {
     this.tests.lights
       .add(this.lightA, 'intensity', 0, 20, 0.001)
       .name('LightAIntensity');
-    */
+    
     this.tests.lights
       .add(this.lightA.position, 'x', -10, 10, 0.1)
       .name('LightAX');
@@ -512,7 +367,7 @@ class Lights {
     this.tests.lights
       .add(this.lightA.position, 'z', -10, 10, 0.1)
       .name('LightAZ');
-    /* 
+    
     this.tests.lights
       .addColor(this.lightsColor, 'b')
       .onChange(() => {
@@ -522,7 +377,7 @@ class Lights {
     this.tests.lights
       .add(this.lightB, 'intensity', 0, 20, 0.001)
       .name('LightBIntensity');
-    */
+    
     this.tests.lights
       .add(this.lightB.position, 'x', -10, 10, 0.1)
       .name('LightBX');
@@ -542,12 +397,10 @@ class World {
     this.tests = this.app.tests;
     
     this.waves = new Waves();
-    //this.holograph = new HolographPlane();
     this.lights = new Lights();
   }
   
   update() {
-    //this.holograph.update();
     this.waves.update();
   }
 }
