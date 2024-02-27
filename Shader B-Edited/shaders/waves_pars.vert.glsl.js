@@ -16,7 +16,7 @@ const wavesParsVert = `
       
       float displaceA(vec3 point) {
     vec3 uv = point.xyz;
-    float time = uTime * uWaveSpeed;
+    float time = uWaveSpeed * PI;
     
     vec2 displacedUv = vec2(
       uv.x * 4.0 + pow(sin(time + uv.y * uWaveFreq), 2.0) * uWaveAmplitude,
@@ -30,11 +30,7 @@ const wavesParsVert = `
     return result;
   }
       
-       // the function which defines the displacement
-      float displace(vec3 point) {
-        return noise(vec3(point.x * uWaveFreq, point.z * uWaveFreq, uTime * uWaveSpeed)) * uWaveAmplitude;
-      }
-      
+       
       // http://lolengine.net/blog/2013/09/21/picking-orthogonal-vector-combing-coconuts
       vec3 orthogonal(vec3 v) {
         return normalize(abs(v.x) > abs(v.z) ? vec3(-v.y, v.x, 0.0)

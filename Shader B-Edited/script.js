@@ -82,12 +82,15 @@ class Tests {
     this.app = new App();
     this.scene = this.app.scene;
     
-    this.active = true; //window.location.hash === "tests";
+    this.active = window.location.hash == "#tests";
     
     if (this.active) {
       this.gui = new dat.GUI();
+      console.warn('This is the dev environment')
       this.stats = new Stats();
       document.body.appendChild(this.stats.dom);
+    } else {
+      this.gui = new dat.GUI();
     }
   }
 }
@@ -184,6 +187,8 @@ class Waves {
     this.setSphere();
     if (this.tests.active) {
       this.setTests();
+    } else {
+      this.setProdGUI();
     }
   }
   
@@ -299,8 +304,39 @@ class Waves {
       .name('WaveSpeed');
   }
   
+  setProdGUI() {
+    this.params = {
+      AudioLevel: 0.5,
+      Waveform: 0,
+      Spectrum: 0.5
+    }
+    
+    this.uniforms.uWaveHeight.value = this.params.AudioLevel * 0.05;
+    this.uniforms.uWaveSpeed.value = this.params.Waveform;
+    this.uniforms.uWaveFreq.value = this.params.Spectrum * 10;
+    
+    this.tests.gui
+      .add(this.params, 'AudioLevel', 0, 1, 0.001)
+      .onChange((value) => {
+        this.uniforms.uWaveHeight.value = this.params.AudioLevel * 0.05;
+      });
+    this.tests.gui
+      .add(this.params, 'Waveform', 0, 1, 0.001)
+      .onChange((value) => {
+        this.uniforms.uWaveSpeed.value = this.params.Waveform;
+      });
+    this.tests.gui
+      .add(this.params, 'Spectrum', 0, 1, 0.001)
+      .onChange((value) => {
+        this.uniforms.uWaveFreq.value = this.params.Spectrum * 10;
+        //this.uniforms.uWaveAmplitude.value = this.params.Spectrum * 0.5;
+      });
+  }
+  
   update() {
-    this.uniforms.uTime.value = this.interval.elapse / 1000;
+    if (this.tests.active) {
+      this.uniforms.uTime.value = this.interval.elapse / 1000;
+    }
   }
 }
 
@@ -457,15 +493,22 @@ class App {
   
   // Called every frame (60fps)
   update() {
-    this.tests.stats.begin();
-    this.interval.update();
-    this.camera.update();
-    this.renderer.update();
-    this.world.update();
+    if (this.tests.active) {
+      this.tests.stats.begin();
+      this.interval.update();
+      this.camera.update();
+      this.renderer.update();
+      this.world.update();
+      this.tests.stats.end();
+    } else {
+      this.interval.update();
+      this.camera.update();
+      this.renderer.update();
+      this.world.update();;
+    }
     requestAnimationFrame(() => {
       this.update();
     });
-    this.tests.stats.end();
   }
 }
 
