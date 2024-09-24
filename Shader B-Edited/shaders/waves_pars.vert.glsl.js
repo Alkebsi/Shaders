@@ -16,7 +16,7 @@ const wavesParsVert = `
       
       float displaceA(vec3 point) {
     vec3 uv = point.xyz;
-    float time = uWaveSpeed * PI;
+    float time = uWaveSpeed * PI + uTime;
     
     vec2 displacedUv = vec2(
       uv.x * 4.0 + pow(sin(time + uv.y * uWaveFreq), 2.0) * uWaveAmplitude,
