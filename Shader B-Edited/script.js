@@ -334,9 +334,7 @@ class Waves {
   }
   
   update() {
-    if (this.tests.active) {
-      this.uniforms.uTime.value = this.interval.elapse / 1000;
-    }
+    this.uniforms.uTime.value = this.interval.elapse / 1000;
   }
 }
 
